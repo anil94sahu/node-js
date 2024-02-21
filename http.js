@@ -1,7 +1,9 @@
 // Hyper text  transfer protocl
 // Help in client and server communication
 // We can't send object drectly, so convert our data into json stringify
-
+// Web framework
+    // A framework simply abstracts the lower level code allowing you to focus on the requirement than the code itself
+    // express, nest, hapi, koa, sails
 const http = require('node:http');
 const fs = require('node:fs');
 

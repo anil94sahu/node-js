@@ -18,6 +18,32 @@
 // Experiment 5 : Increasing the thread pool size can help with performance
 // but that is limited by the number of available CPU cores
 
+
+// Experiment 6 : Although both crypto.pbkdf2 and https.request are asynchronous
+// https.request method does not seem to use the thread pool. https.request does
+// not seem to be affected by the number of cpu cores.
+
+// https.request is a network I/O operation and not a CPU bounf operation
+// It does not use the thread pool
+// Libuv instead delegates the work to the operating sysntem kernel and 
+// whenever possible, it will poll the kernel and see if the request has completed.
+
+// In node js, async method are handles by libuv
+// They are handled in 2 different ways
+// 1. Native async mechanism
+// 2. Thread pool
+
+// Whenever possible , Libuv will use native async mechanism in the OS so as to avoid
+// blocking the main thread.
+
+// Since this is the part of kernel, there is different mechanis for each OS. We have 
+// Linux > epoll
+// Mac > Kqueue
+// Windows > IO Completion port
+
+// If there is no native support then the task is intensive, then libux uses
+// the thread pool to avoid blocking the main thread
+
 const crypt = require('node:crypto');
 
 process.env.UV_THREAD_POOL_SIZE = 5
